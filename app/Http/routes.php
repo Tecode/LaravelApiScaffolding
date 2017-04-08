@@ -10,7 +10,16 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+$api = app('Dingo\Api\Routing\Router');
 
+//api接口路由
+$api->version('v1', function ($api) {
+    $api->group(['namespace' => 'App\Api\V1\Controllers'], function ($api) {
+        // Endpoints registered here will have the "foo" middleware applied.
+        $api->get('/', 'TestApiController@index');
+        $api->resource('getData', 'ApiController');
+    });
+});
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', function () {
@@ -30,6 +39,7 @@ Route::group(['middleware' => ['web', 'admin.login'], 'namespace' => 'Admin', 'p
     Route::get('info', 'IndexController@info');
     Route::get('loginout', 'IndexController@loginOut');
     Route::any('pass', 'IndexController@pass');
+    Route::get('testmolde', 'IndexController@pass');
 
     Route::resource('category', 'CategoryController');
     Route::resource('article', 'ArticleController');
@@ -41,7 +51,7 @@ Route::group(['middleware' => ['web', 'admin.login'], 'namespace' => 'Admin', 'p
 
 
 Route::get('admin/code', 'Admin\LoginController@code');
-
+Route::get('api/getData', 'Api\GetDataController@getData');
 /*
 |--------------------------------------------------------------------------
 | Application Routes

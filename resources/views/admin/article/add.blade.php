@@ -39,7 +39,7 @@
                 @endif
             @endif
         </div>
-        <form action="{{url('admin/article')}}" method="post">
+        <form action="{{url('admin/article')}}" enctype="multipart/form-data" method="post">
             {{csrf_field()}}
             <table class="add_tab">
                 <tbody>
@@ -78,7 +78,7 @@
                     <th>缩略图：</th>
                     <td>
                         <div style="width: 20%;min-height: 60px">
-                            <img class="img_pictrue" src="{{url('storage/uploads/20170218223618136.jpg')}}" width="100%"/>
+                            <img class="img_pictrue" src="{{url('storage/app/uploads/20170224191424179.PNG')}}" width="100%"/>
                         </div>
                         <input id="file_upload" value="" type="file" multiple="true">
                         <input class="file_upload" value="" name="art_thump" type="hidden" />

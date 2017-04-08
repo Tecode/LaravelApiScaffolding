@@ -39,6 +39,7 @@
                     <li><a href="{{url('admin/article/create')}}" target="main"><i class="fa fa-fw fa-list-alt"></i>添加文章</a></li>
 					<li><a href="{{url('admin/link')}}" target="main"><i class="fa fa-fw fa-image"></i>链接列表</a></li>
 					<li><a href="{{url('admin/link/create')}}" target="main"><i class="fa fa-fw fa-list-alt"></i>添加链接</a></li>
+					<li><a href="{{url('admin/link/create')}}" target="main"><i class="fa fa-fw fa-list-alt"></i>测试内容</a></li>
                 </ul>
             </li>
             <li>

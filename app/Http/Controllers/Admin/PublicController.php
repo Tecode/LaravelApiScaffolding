@@ -23,7 +23,7 @@ class PublicController extends Controller
             //图片保存路径
             $newName = date('YmdHid').mt_rand(100,200).'.'.$entension;
             $path = $file -> move('storage/app/uploads',$newName);
-            return 'storage/uploads/'.$newName;
+            return 'storage/app/uploads/'.$newName;
         }
     }
 }
