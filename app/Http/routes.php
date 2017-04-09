@@ -12,13 +12,22 @@
 */
 $api = app('Dingo\Api\Routing\Router');
 
-//api接口路由
+//api接口路由jwt.auth
 $api->version('v1', function ($api) {
-    $api->group(['namespace' => 'App\Api\V1\Controllers'], function ($api) {
+    $api->group(['namespace' => 'App\Api\V1\Controllers', 'middleware' => ['jwt.auth']], function ($api) {
         // Endpoints registered here will have the "foo" middleware applied.
         $api->get('/', 'TestApiController@index');
+        $api->get('me', 'TestApiController@me');
         $api->resource('getData', 'ApiController');
     });
+
+    $api->group([
+        'namespace' => 'App\Api\V1\Controllers'
+    ], function ($api) {
+        $api->post('login', 'TestApiController@login');
+        $api->post('register', 'TestApiController@register');
+    });
+
 });
 
 Route::group(['middleware' => ['web']], function () {
