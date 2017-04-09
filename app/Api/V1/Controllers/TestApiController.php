@@ -38,13 +38,13 @@ class TestApiController extends BaseController
             'user_name' => $request->input('name'),
             'user_pass' => $request->input('password')
         ];
-        $user = User::create($newUser);
+//        $user = User::create($newUser);
 //        $user = User::first();
-        $token = JWTAuth::fromUser($user);
+//        $token = JWTAuth::fromUser($user);
 
 //        $customClaims = ['foo' => 'bar', 'baz' => 'bob'];
-//        $payload = JWTFactory::make($customClaims);
-//        $token = JWTAuth::encode($payload);
+        $payload = JWTFactory::make($newUser);
+        $token = JWTAuth::encode($payload)->get();
 
         $name = $newUser['user_name'];
         return response()->json(compact('token', 'name'));
