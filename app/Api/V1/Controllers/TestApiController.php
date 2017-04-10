@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Api\V1\Controllers;
+use Illuminate\Support\Facades\Crypt;
 use JWTAuth;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -23,10 +24,8 @@ class TestApiController extends BaseController
     public function register(Request $request)
     {
         $rules = [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|between:6,10',
-            'password_confirmation' => 'required'
+            'user_name' => 'required',
+            'user_pass' => 'required|between:6,10',
         ];
         // validata
         $validator = Validator::make($request->all(), $rules);
@@ -35,16 +34,15 @@ class TestApiController extends BaseController
             throw new StoreResourceFailedException('Could not create new user.', $validator->errors());
         }
         $newUser = [
-            'user_name' => $request->input('name'),
-            'user_pass' => $request->input('password')
+            'user_name' => $request->input('user_name'),
+            'user_pass' => $request->input('user_pass')
         ];
-//        $user = User::create($newUser);
-//        $user = User::first();
-//        $token = JWTAuth::fromUser($user);
+        $user = User::create($newUser);
+        $token = JWTAuth::fromUser($user);
 
-//        $customClaims = ['foo' => 'bar', 'baz' => 'bob'];
-        $payload = JWTFactory::make($newUser);
-        $token = JWTAuth::encode($payload)->get();
+
+//        $payload = JWTFactory::make($newUser);
+//        $token = JWTAuth::encode($payload)->get();
 
         $name = $newUser['user_name'];
         return response()->json(compact('token', 'name'));
@@ -53,7 +51,7 @@ class TestApiController extends BaseController
     public function login(Request $request)
     {
         // grab credentials from the request
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('user_name', 'user_pass');
         try {
             // attempt to verify the credentials and create a token for the user
             if (!$token = JWTAuth::attempt($credentials)) {
@@ -63,8 +61,10 @@ class TestApiController extends BaseController
             // something went wrong whilst attempting to encode the token
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
+
+
         $where = [
-            'email' => $credentials['email']
+            'user_name' => $credentials['name']
         ];
         $name = User::where($where)->value('user_name');
         // all good so return the token and name
